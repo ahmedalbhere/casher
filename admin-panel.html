@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم البرامج المحاسبية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        /* تصميم نموذج تسجيل الدخول */
+        .login-container {
+            width: 100%;
+            max-width: 450px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 50px 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .login-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        .login-icon i {
+            font-size: 36px;
+            color: white;
+        }
+        
+        .login-header h1 {
+            font-size: 28px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .login-header p {
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 15px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e0e6ed;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+        
+        .form-group input:focus {
+            border-color: #667eea;
+            outline: none;
+            background: white;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.1);
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #5a6fd8, #68418f);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .password-note {
+            text-align: center;
+            margin-top: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 1px solid #e0e6ed;
+        }
+        
+        /* تصميم لوحة التحكم */
+        .dashboard-container {
+            width: 100%;
+            max-width: 1400px;
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+        
+        /* شريط التنقل */
+        .dashboard-header {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            padding: 25px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+        
+        .dashboard-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .dashboard-title i {
+            font-size: 32px;
+            color: #26d0ce;
+        }
+        
+        .dashboard-title h1 {
+            font-size: 28px;
+            font-weight: 800;
+        }
+        
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+        
+        /* محتوى اللوحة */
+        .dashboard-content {
+            padding: 40px;
+            min-height: 600px;
+        }
+        
+        /* إحصائيات */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .stat-icon i {
+            font-size: 28px;
+        }
+        
+        .stat-info h3 {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+        
+        .stat-info p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        /* نموذج إضافة برنامج */
+        .form-section {
+            background: #f8fafd;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            border: 1px solid #eef2f7;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            color: #1a2980;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #26d0ce;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .section-title i {
+            color: #667eea;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .form-control {
+            margin-bottom: 20px;
+        }
+        
+        .form-control label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 15px;
+        }
+        
+        .form-control label.required::after {
+            content: ' *';
+            color: #e74c3c;
+        }
+        
+        .form-control input,
+        .form-control select,
+        .form-control textarea {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e0e6ed;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .form-control input:focus,
+        .form-control select:focus,
+        .form-control textarea:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.1);
+        }
+        
+        .form-control textarea {
+            min-height: 120px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+        
+        /* شبكة الأيقونات */
+        .icons-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid #eef2f7;
+        }
+        
+        .icons-title {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .icons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        
+        .icon-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 15px;
+            border: 2px solid #e0e6ed;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+        
+        .icon-option:hover {
+            border-color: #667eea;
+            background: #f0f5ff;
+            transform: translateY(-3px);
+        }
+        
+        .icon-option.selected {
+            border-color: #26d0ce;
+            background: linear-gradient(135deg, rgba(38, 208, 206, 0.1), rgba(102, 126, 234, 0.1));
+            box-shadow: 0 5px 15px rgba(38, 208, 206, 0.2);
+        }
+        
+        .icon-option i {
+            font-size: 28px;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .icon-option.selected i {
+            color: #26d0ce;
+        }
+        
+        .icon-option span {
+            font-size: 12px;
+            text-align: center;
+            color: #5a6c7d;
+            font-weight: 500;
+        }
+        
+        /* أزرار الإجراءات */
+        .form-actions {
+            display: flex;
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .form-actions button {
+            flex: 1;
+            padding: 18px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size:
