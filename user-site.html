@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>البرامج المحاسبية والمالية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: #2c3e50;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* تصميم الهيدر */
+        header {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: white;
+            padding: 25px 0;
+            box-shadow: 0 4px 20px rgba(26, 41, 128, 0.15);
+            margin-bottom: 40px;
+            border-radius: 0 0 20px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo-icon i {
+            font-size: 28px;
+            color: #1a2980;
+        }
+        
+        .logo-text h1 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo-text p {
+            font-size: 16px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        .stats {
+            display: flex;
+            gap: 30px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        /* تصميم الفلاتر */
+        .filters-section {
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            display: inline-block;
+            font-size: 32px;
+            color: #1a2980;
+            padding-bottom: 15px;
+            position: relative;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 50%;
+            transform: translateX(50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, #1a2980, #26d0ce);
+            border-radius: 2px;
+        }
+        
+        .category-filter {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+        
+        .category-btn {
+            background: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(26, 41, 128, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #2c3e50;
+            border: 2px solid transparent;
+        }
+        
+        .category-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(26, 41, 128, 0.15);
+        }
+        
+        .category-btn.active {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: white;
+            border-color: #1a2980;
+        }
+        
+        /* تصميم شبكة البرامج */
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .program-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            border: 1px solid #eef2f7;
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .program-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(26, 41, 128, 0.15);
+        }
+        
+        .program-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(to right, #1a2980, #26d0ce);
+        }
+        
+        .program-header {
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: #f8fafd;
+            border-bottom: 1px solid #eef2f7;
+        }
+        
+        .program-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 6px 15px rgba(26, 41, 128, 0.2);
+        }
+        
+        .program-icon i {
+            font-size: 32px;
+            color: white;
+        }
+        
+        .program-info {
+            flex-grow: 1;
+        }
+        
+        .program-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a2980;
+            margin-bottom: 8px;
+        }
+        
+        .program-category {
+            display: inline-block;
+            padding: 5px 15px;
+            background: #e8f4fc;
+            color: #1a2980;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .program-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .program-description {
+            color: #5a6c7d;
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            flex-grow: 1;
+        }
+        
+        .program-details {
+            background: #f8fafd;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eef2f7;
+        }
+        
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .detail-value {
+            color: #5a6c7d;
+        }
+        
+        .download-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: white;
+            padding: 18px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin-top: auto;
+        }
+        
+        .download-btn:hover {
+            background: linear-gradient(135deg, #15225e, #1fb9b7);
+            box-shadow: 0 6px 20px rgba(26, 41, 128, 0.25);
+            transform: translateY(-2px);
+        }
+        
+        /* رسالة عندما لا توجد برامج */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            grid-column: 1 / -1;
+        }
+        
+        .empty-icon {
+            font-size: 80px;
+            color: #ddd;
+            margin-bottom: 30px;
+        }
+        
+        .empty-state h3 {
+            color: #7f8c8d;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        
+        .empty-state p {
+            color: #95a5a6;
+            font-size: 18px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        /* تصميم الفوتر */
+        footer {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: white;
+            padding: 40px 0 30px;
+            margin-top: 60px;
+            border-radius: 20px 20px 0 0;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .copyright {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .contact-info {
+            text-align: left;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .contact-item i {
+            color: #26d0ce;
+            font-size: 18px;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+        
+        /* تصميم للجوال */
+        @media (max-width: 992px) {
+            .programs-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 25px;
+                text-align: center;
+            }
+            
+            .stats {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .programs-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 25px;
+                text-align: center;
+            }
+            
+            .contact-info {
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .program-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- الهيدر -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>البرامج المحاسبية</h1>
+                    <p>حلول متكاملة لإدارة أعمالك المالية</p>
+                </div>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="totalPrograms">0</span>
+                    <span class="stat-label">برنامج متاح</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="accountingPrograms">0</span>
+                    <span class="stat-label">محاسبية</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="financialPrograms">0</span>
+                    <span class="stat-label">مالية</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- محتوى الصفحة -->
+    <div class="container">
+        <!-- فلاتر التصنيفات -->
+        <div class="filters-section">
+            <div class="section-title">
+                <h2>البرامج المتاحة للتحميل</h2>
+            </div>
+            
+            <div class="category-filter">
+                <button class="category-btn active" data-category="all">
+                    <i class="fas fa-layer-group"></i> جميع البرامج
+                </button>
+                <button class="category-btn" data-category="accounting">
+                    <i class="fas fa-file-invoice-dollar"></i> محاسبية
+                </button>
+                <button class="category-btn" data-category="financial">
+                    <i class="fas fa-chart-line"></i> مالية
+                </button>
+                <button class="category-btn" data-category="inventory">
+                    <i class="fas fa-boxes"></i> مخزون
+                </button>
+                <button class="category-btn" data-category="payroll">
+                    <i class="fas fa-money-check-alt"></i> رواتب
+                </button>
+            </div>
+        </div>
+        
+        <!-- شبكة عرض البرامج -->
+        <div class="programs-grid" id="programsContainer">
+            <!-- ستتم إضافة البرامج هنا عبر JavaScript -->
+        </div>
+    </div>
+
+    <!-- الفوتر -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="copyright">
+                    <p>جميع الحقوق محفوظة &copy; <span id="currentYear"></span> البرامج المحاسبية</p>
+                    <p style="margin-top: 10px; font-size: 14px;">تم التطوير بعناية لتلبية احتياجاتك</p>
+                </div>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>support@accounting-soft.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>+966 123 456 789</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <span>الأحد - الخميس: 8 ص - 5 م</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>هذا الموقع يعرض البرامج المحاسبية والمالية المتاحة للتحميل</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // كائن لتخزين البرامج
+        let programsData = [];
+        
+        // عناصر DOM
+        const programsContainer = document.getElementById('programsContainer');
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        const totalProgramsElement = document.getElementById('totalPrograms');
+        const accountingProgramsElement = document.getElementById('accountingPrograms');
+        const financialProgramsElement = document.getElementById('financialPrograms');
+        const currentYearElement = document.getElementById('currentYear');
+        
+        // تحميل البرامج من localStorage
+        function loadPrograms() {
+            const savedPrograms = localStorage.getItem('accountingPrograms');
+            if (savedPrograms) {
+                programsData = JSON.parse(savedPrograms);
+                updateStats();
+                displayPrograms('all');
+            } else {
+                showEmptyState();
+            }
+        }
+        
+        // تحديث الإحصائيات
+        function updateStats() {
+            const total = programsData.length;
+            const accounting = programsData.filter(p => p.category === 'accounting').length;
+            const financial = programsData.filter(p => p.category === 'financial').length;
+            const inventory = programsData.filter(p => p.category === 'inventory').length;
+            const payroll = programsData.filter(p => p.category === 'payroll').length;
+            
+            totalProgramsElement.textContent = total;
+            accountingProgramsElement.textContent = accounting;
+            financialProgramsElement.textContent = financial;
+            
+            // تحديث التسميات في الأزرار
+            document.querySelector('[data-category="accounting"]').innerHTML = 
+                `<i class="fas fa-file-invoice-dollar"></i> محاسبية (${accounting})`;
+            document.querySelector('[data-category="financial"]').innerHTML = 
+                `<i class="fas fa-chart-line"></i> مالية (${financial})`;
+            document.querySelector('[data-category="inventory"]').innerHTML = 
+                `<i class="fas fa-boxes"></i> مخزون (${inventory})`;
+            document.querySelector('[data-category="payroll"]').innerHTML = 
+                `<i class="fas fa-money-check-alt"></i> رواتب (${payroll})`;
+            document.querySelector('[data-category="all"]').innerHTML = 
+                `<i class="fas fa-layer-group"></i> جميع البرامج (${total})`;
+        }
+        
+        // عرض البرامج حسب التصنيف
+        function displayPrograms(category) {
+            programsContainer.innerHTML = '';
+            
+            const filteredPrograms = category === 'all' 
+                ? programsData 
+                : programsData.filter(program => program.category === category);
+            
+            if (filteredPrograms.length === 0) {
+                showEmptyState(category);
+                return;
+            }
+            
+            filteredPrograms.forEach(program => {
+                const programCard = createProgramCard(program);
+                programsContainer.appendChild(programCard);
+            });
+        }
+        
+        // إنشاء بطاقة برنامج
+        function createProgramCard(program) {
+            const card = document.createElement('div');
+            card.className = 'program-card';
+            card.setAttribute('data-category', program.category);
+            
+            // تسميات التصنيف بالعربية
+            const categoryLabels = {
+                'accounting': 'محاسبية',
+                'financial': 'مالية',
+                'inventory': 'مخزون',
+                'payroll': 'رواتب'
+            };
+            
+            card.innerHTML = `
+                <div class="program-header">
+                    <div class="program-icon">
+                        <i class="${program.icon}"></i>
+                    </div>
+                    <div class="program-info">
+                        <h3 class="program-title">${program.name}</h3>
+                        <span class="program-category">${categoryLabels[program.category] || program.category}</span>
+                    </div>
+                </div>
+                
+                <div class="program-content">
+                    <p class="program-description">${program.description}</p>
+                    
+                    <div class="program-details">
+                        <div class="detail-item">
+                            <span class="detail-label">الإصدار:</span>
+                            <span class="detail-value">${program.version}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">الحجم:</span>
+                            <span class="detail-value">${program.size}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">متطلبات التشغيل:</span>
+                            <span class="detail-value">${program.requirements}</span>
+                        </div>
+                    </div>
+                    
+                    <a href="${program.downloadUrl}" target="_blank" class="download-btn">
+                        <i class="fas fa-cloud-download-alt"></i>
+                        تحميل البرنامج
+                    </a>
+                </div>
+            `;
+            
+            return card;
+        }
+        
+        // عرض حالة عدم وجود برامج
+        function showEmptyState(category = 'all') {
+            const categoryLabels = {
+                'accounting': 'محاسبية',
+                'financial': 'مالية',
+                'inventory': 'مخزون',
+                'payroll': 'رواتب',
+                'all': ''
+            };
+            
+            const categoryLabel = categoryLabels[category] || '';
+            const message = category === 'all' 
+                ? 'لا توجد برامج مضافة حالياً' 
+                : `لا توجد برامج في قسم "${categoryLabel}" حالياً`;
+            
+            programsContainer.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">
+                        <i class="fas fa-folder-open"></i>
+                    </div>
+                    <h3>${message}</h3>
+                    <p>سيتم عرض البرامج هنا بمجرد إضافتها من خلال لوحة التحكم</p>
+                </div>
+            `;
+        }
+        
+        // تهيئة الأزرار والتصفية
+        function initCategoryFilter() {
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // إزالة النشاط من جميع الأزرار
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    // إضافة النشاط للزر المضغوط
+                    this.classList.add('active');
+                    // عرض البرامج حسب التصنيف
+                    const category = this.getAttribute('data-category');
+                    displayPrograms(category);
+                });
+            });
+        }
+        
+        // تحديث السنة الحالية
+        function updateCurrentYear() {
+            currentYearElement.textContent = new Date().getFullYear();
+        }
+        
+        // تهيئة الصفحة عند التحميل
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPrograms();
+            initCategoryFilter();
+            updateCurrentYear();
+            
+            // تحديث البرامج كل 5 ثواني (للتأكد من عرض أحدث البيانات)
+            setInterval(loadPrograms, 5000);
+        });
+    </script>
+</body>
+</html>
