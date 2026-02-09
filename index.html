@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>تحميل برامج Excel</title>
+<style>
+body{
+    font-family: Arial;
+    background:#f4f6f8;
+    margin:0;
+    padding:20px;
+}
+h1{text-align:center}
+.container{max-width:900px;margin:auto}
+.card{
+    background:#fff;
+    padding:15px;
+    margin:15px 0;
+    border-radius:8px;
+    box-shadow:0 0 5px rgba(0,0,0,.1)
+}
+img{max-width:100%;border-radius:6px}
+button{
+    padding:10px 15px;
+    border:none;
+    background:#007bff;
+    color:#fff;
+    border-radius:5px;
+    cursor:pointer
+}
+button:hover{opacity:.9}
+input,textarea{
+    width:100%;
+    padding:10px;
+    margin:5px 0;
+}
+.admin{display:none}
+.download{
+    display:inline-block;
+    margin-top:10px;
+    background:green;
+    color:#fff;
+    padding:8px 12px;
+    border-radius:5px;
+    text-decoration:none
+}
+</style>
+</head>
+
+<body>
+
+<h1>📊 برامج Excel</h1>
+
+<div class="container">
+
+<!-- زر الدخول كأدمن -->
+<button onclick="login()">دخول الأدمن</button>
+
+<!-- لوحة الأدمن -->
+<div class="card admin" id="adminPanel">
+<h3>🔐 لوحة الأدمن</h3>
+<input id="title" placeholder="اسم البرنامج">
+<input id="img" placeholder="رابط صورة البرنامج">
+<input id="link" placeholder="رابط التحميل من Google Drive">
+<textarea id="desc" placeholder="وصف البرنامج (اختياري)"></textarea>
+<button onclick="addProgram()">➕ إضافة البرنامج</button>
+</div>
+
+<!-- عرض البرامج -->
+<div id="programs"></div>
+
+</div>
+
+<script>
+const PASSWORD = "0987";
+
+function login(){
+    const pass = prompt("ادخل كلمة السر:");
+    if(pass === PASSWORD){
+        document.getElementById("adminPanel").style.display="block";
+        alert("تم الدخول كأدمن ✅");
+    }else{
+        alert("كلمة السر غير صحيحة ❌");
+    }
+}
+
+function addProgram(){
+    let data = JSON.parse(localStorage.getItem("programs") || "[]");
+    data.push({
+        title:title.value,
+        img:img.value,
+        link:link.value,
+        desc:desc.value
+    });
+    localStorage.setItem("programs", JSON.stringify(data));
+    title.value = img.value = link.value = desc.value = "";
+    loadPrograms();
+}
+
+function loadPrograms(){
+    let data = JSON.parse(localStorage.getItem("programs") || "[]");
+    programs.innerHTML="";
+    data.forEach(p=>{
+        programs.innerHTML += `
+        <div class="card">
+            ${p.img ? `<img src="${p.img}">` : ""}
+            <h3>${p.title}</h3>
+            <p>${p.desc || ""}</p>
+            <a class="download" href="${p.link}" target="_blank">⬇ تحميل</a>
+        </div>`;
+    });
+}
+
+loadPrograms();
+</script>
+
+</body>
+</html>
